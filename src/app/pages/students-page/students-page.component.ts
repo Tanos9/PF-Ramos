@@ -10,12 +10,12 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
 })
 export class StudentsPageComponent {
   students: Student[] = [
-    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com'),
-    new Student(2, 'John', 'Dude', 'thedood@outlook.com'),
-    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com'),
+    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com', 'Ingeniería Industrial'),
+    new Student(2, 'John', 'Dude', 'thedood@outlook.com', 'Ingeniería Civil'),
+    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com', "Ingeniería en Software"),
   ]
 
-  displayedColumns = ['id', 'name', 'email', 'edit', 'delete'];
+  displayedColumns = ['id', 'name', 'career', 'email', 'edit', 'delete'];
 
   constructor(private readonly dialogService: MatDialog) {}
 
@@ -25,7 +25,12 @@ export class StudentsPageComponent {
     dialog.afterClosed().subscribe((value) => {
       if (value) {
         const lastId = this.students[this.students.length - 1]?.id;
-        this.students = [...this.students, new Student(lastId + 1, value.firstName, value.lastName, value.email)];
+        this.students = [...this.students, new Student(
+          lastId + 1,
+          value.firstName,
+          value.lastName,
+          value.email,
+          value.career)];
       }
     })
   }

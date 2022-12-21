@@ -18,12 +18,15 @@ export class StudentDialogComponent {
   lastNameControl = new FormControl('',
   [Validators.required, Validators.minLength(2), Validators.maxLength(50)]);
 
-  emailControl = new FormControl('', [Validators.email, Validators.required])
+  emailControl = new FormControl('', [Validators.email, Validators.required]);
+
+  careerControl = new FormControl('', [Validators.required]);
 
   studentForm = new FormGroup({
     firstName: this.firstNameControl,
     lastName: this.lastNameControl,
     email: this.emailControl,
+    career: this.careerControl
   })
 
   constructor(
