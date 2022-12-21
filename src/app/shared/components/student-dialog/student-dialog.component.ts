@@ -23,7 +23,7 @@ export class StudentDialogComponent {
   studentForm = new FormGroup({
     firstName: this.firstNameControl,
     lastName: this.lastNameControl,
-    emailControl: this.emailControl,
+    email: this.emailControl,
   })
 
   constructor(
