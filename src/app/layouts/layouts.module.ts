@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { SharedModule } from '../shared/shared.module';
 import { PagesModule } from '../pages/pages.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,7 +14,8 @@ import { PagesModule } from '../pages/pages.module';
   imports: [
     CommonModule,
     SharedModule,
-    PagesModule
+    PagesModule,
+    RouterModule
   ],
   exports: [
     DashboardLayoutComponent
