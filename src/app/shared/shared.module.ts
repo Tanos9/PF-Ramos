@@ -7,6 +7,7 @@ import { FullNamePipe } from './custom-pipes/full-name-pipe';
 import { HeaderComponent } from './layout/header/header.component';
 import { SideMenuComponent } from './layout/menu/side-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     MyMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     StudentDialogComponent,
