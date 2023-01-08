@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { StudentsPageComponent } from './pages/students-page/students-page.component';
+import { CoursesPageComponent } from './pages/courses-page/courses-page.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
       {
         path: 'students',
         component: StudentsPageComponent
+      },
+      {
+        path: 'courses',
+        component: CoursesPageComponent
       }
     ]
   }

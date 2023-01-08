@@ -8,6 +8,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { SideMenuComponent } from './layout/menu/side-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 
 
 
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
     FullNamePipe,
     HeaderComponent,
     SideMenuComponent,
+    CourseDialogComponent,
   ],
   imports: [
     CommonModule,
