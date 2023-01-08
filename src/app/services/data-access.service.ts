@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../models/courses.model';
+import { Inscription } from '../models/inscription.model';
 import { Student } from '../models/student.model';
 
 @Injectable({
@@ -17,6 +18,10 @@ export class DataAccessService {
     new Course(1, 'Matematica 1', 'Calculo Matemático'),
     new Course(2, 'Física 1', 'Fisica clásica'),
     new Course(3, 'Ingeniería y Sociedad', 'Ingeniería en la sociedad actual')
+  ]
+
+  public inscriptions: Inscription[] = [
+    new Inscription(1, 1, 1)
   ]
 
   constructor() { }

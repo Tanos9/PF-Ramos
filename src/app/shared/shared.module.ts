@@ -9,6 +9,7 @@ import { SideMenuComponent } from './layout/menu/side-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
+import { InscriptionDialogComponent } from './components/inscription-dialog/inscription-dialog.component';
 
 
 
@@ -20,6 +21,7 @@ import { CourseDialogComponent } from './components/course-dialog/course-dialog.
     HeaderComponent,
     SideMenuComponent,
     CourseDialogComponent,
+    InscriptionDialogComponent,
   ],
   imports: [
     CommonModule,

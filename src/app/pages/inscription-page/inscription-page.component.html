@@ -1,0 +1,23 @@
+<button (click)="addInscription()" mat-flat-button color="primary">Agregar Inscripción</button>
+
+<table mat-table [dataSource]="inscriptions">
+  <ng-container matColumnDef="student">
+    <th mat-header-cell *matHeaderCellDef>Alumno</th>
+    <td mat-cell *matCellDef="let inscription">{{ inscription.studentName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="course">
+    <th mat-header-cell *matHeaderCellDef>Curso</th>
+    <td mat-cell *matCellDef="let inscription">{{ inscription.courseName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+    <td mat-cell *matCellDef="let inscription">
+      <button (click)="removeInscription(inscription)" mat-icon-button color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
