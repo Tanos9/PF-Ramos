@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Student } from 'src/app/models/student.model';
+import { StudentsService } from 'src/app/services/students.service';
 import { StudentDialogComponent } from 'src/app/shared/components/student-dialog/student-dialog.component';
 
 @Component({
@@ -9,46 +11,47 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
   styleUrls: ['./students-page.component.scss']
 })
 export class StudentsPageComponent {
-  students: Student[] = [
-    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com', 'Ingeniería Industrial'),
-    new Student(2, 'John', 'Dude', 'thedood@outlook.com', 'Ingeniería Civil'),
-    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com', "Ingeniería en Software"),
-  ]
+  students: Student[] = [];
 
   displayedColumns = ['id', 'name', 'career', 'email', 'edit', 'delete'];
 
-  constructor(private readonly dialogService: MatDialog) {}
+  constructor(
+    private readonly _dialogService: MatDialog,
+    public _studentsService : StudentsService
+  )
+  {
+    this._studentsService.studentListChanged$.subscribe(() => {
+      this.students = _studentsService.getStudents();
+    });
+  }
+  
+  ngOnInit(){
+    this.students = this._studentsService.getStudents();
+  }
 
   addStudent() {
-    const dialog = this.dialogService.open(StudentDialogComponent)
+    const dialog = this._dialogService.open(StudentDialogComponent)
 
     dialog.afterClosed().subscribe((value) => {
       if (value) {
-        const lastId = this.students[this.students.length - 1]?.id;
-        this.students = [...this.students, new Student(
-          lastId + 1,
-          value.firstName,
-          value.lastName,
-          value.email,
-          value.career)];
+        this._studentsService.addStudent(value);
       }
     })
   }
 
   removeStudent(student: Student) {
-    this.students = this.students.filter(
-      (stu) => stu.id !== student.id
-    );
+    this._studentsService.removeStudent(student.id)
   }
 
   editStudent(student: Student) {
-    const dialog = this.dialogService.open(StudentDialogComponent, {
+    const dialog = this._dialogService.open(StudentDialogComponent,
+    {
       data: student,
     })
 
     dialog.afterClosed().subscribe((data) => {
       if (data) {
-        this.students = this.students.map((stu) => stu.id === student.id ? { ...stu, ...data } : stu)
+        this._studentsService.editStudent(student.id, data);
       }
     })
   }
