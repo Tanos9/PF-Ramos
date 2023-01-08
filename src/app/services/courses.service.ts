@@ -1,54 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Course } from '../models/courses.model';
+import { DataAccessService } from './data-access.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
 
-  private courses: Course[] = [
-    new Course(1, 'Matematica 1', 'Calculo Matemático'),
-    new Course(2, 'Física 1', 'Fisica clásica'),
-    new Course(3, 'Ingeniería y Sociedad', 'Ingeniería en la sociedad actual')
-  ]
-
   private coursesListChanged = new Subject<Course[]>();
   public coursesListChanged$ = this.coursesListChanged.asObservable();
 
-  constructor() { }
+  constructor(private readonly _dataAccess: DataAccessService) { }
 
   getCourses(): Course[] {
-    return this.courses.slice();
+    return this._dataAccess.courses.slice();
   }
 
   addCourse(course: Course) {
     course.id = this.getNextId();
-    this.courses.push(course);
-    this.coursesListChanged.next(this.courses.slice());
+    this._dataAccess.courses.push(course);
+    this.coursesListChanged.next(this._dataAccess.courses.slice());
   }
 
   editCourse(id: number, course: Course) {
     let index = this.findCourseIndexById(id);
     course.id = id;
-    this.courses[index] = course;
+    this._dataAccess.courses[index] = course;
 
-    this.coursesListChanged.next(this.courses.slice());
+    this.coursesListChanged.next(this._dataAccess.courses.slice());
   }
 
   removeCourse(id: number) {
     let index = this.findCourseIndexById(id);
-    this.courses.splice(index, 1);
+    this._dataAccess.courses.splice(index, 1);
 
-    this.coursesListChanged.next(this.courses.slice());
+    this.coursesListChanged.next(this._dataAccess.courses.slice());
   }
 
   private findCourseIndexById(id: number) {
-    return this.courses.findIndex(s => s.id === id)
+    return this._dataAccess.courses.findIndex(s => s.id === id)
   }
   
   private getNextId(): number {
-    const maxId = this.courses.reduce((prev, curr) => Math.max(prev, curr.id), 0);
+    const maxId = this._dataAccess.courses.reduce((prev, curr) => Math.max(prev, curr.id), 0);
     return maxId + 1;
   }
 }
