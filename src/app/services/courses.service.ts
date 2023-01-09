@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Course } from '../models/courses.model';
 import { DataAccessService } from './data-access.service';
+import { InscriptionsService } from './inscriptions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class CoursesService {
   private coursesListChanged = new Subject<Course[]>();
   public coursesListChanged$ = this.coursesListChanged.asObservable();
 
-  constructor(private readonly _dataAccess: DataAccessService) { }
+  constructor(
+    private readonly _dataAccess: DataAccessService,
+    private readonly _InscriptionService: InscriptionsService) { }
 
   getCourses(): Course[] {
     return this._dataAccess.courses.slice();
@@ -32,6 +35,8 @@ export class CoursesService {
   }
 
   removeCourse(id: number) {
+    this._InscriptionService.removeInscriptionsByCourseId(id);
+    
     let index = this.findCourseIndexById(id);
     this._dataAccess.courses.splice(index, 1);
 

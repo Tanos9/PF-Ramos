@@ -57,6 +57,16 @@ export class InscriptionsService {
     this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
   }
 
+  removeInscriptionsByCourseId(courseId: number){
+    this._dataAccess.inscriptions = this._dataAccess.inscriptions.filter(i => i.courseId != courseId)
+    this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
+  }
+
+  removeInscriptionsByStudentId(studentId: number){
+    this._dataAccess.inscriptions = this._dataAccess.inscriptions.filter(i => i.studentId != studentId)
+    this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
+  }
+
   getStudents(): Student[]{
     return this._dataAccess.students;
   }
