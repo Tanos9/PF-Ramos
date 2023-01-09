@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Datos del curso</h1>
+<div class="dialog" mat-dialog-content>
+  <h3>Curso: </h3>
+  <ul>
+  {{ course.name }}
+  </ul>
+  <h3>Descripción del curso: </h3>
+  <ul>
+  {{ course.description }}
+  </ul>
+  <h3>Alumnos Inscritos:</h3>
+  <div *ngIf="students.length; else emptyList">
+  <ul>
+    <li *ngFor="let student of students; let i = index">
+      {{student.firstName | fullNamePipe: student.lastName }}
+    </li>
+  </ul>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>
+
+<ng-template #emptyList>
+  No hay alumnos inscritos en este curso
+</ng-template>

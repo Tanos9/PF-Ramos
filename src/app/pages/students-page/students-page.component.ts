@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Course } from 'src/app/models/courses.model';
-import { Inscription } from 'src/app/models/inscription.model';
 import { Student } from 'src/app/models/student.model';
-import { InscriptionsService } from 'src/app/services/inscriptions.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { StudentDetailDialogComponent } from 'src/app/shared/components/student-detail-dialog/student-detail-dialog.component';
 import { StudentDialogComponent } from 'src/app/shared/components/student-dialog/student-dialog.component';

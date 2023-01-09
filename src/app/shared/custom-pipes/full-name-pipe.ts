@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FullNamePipe implements PipeTransform {
   transform(value: string, other: string): string {
-    return `${value} ${other}`;
+    return `${value}, ${other}`;
   }
 }

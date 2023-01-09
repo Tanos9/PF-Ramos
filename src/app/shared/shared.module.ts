@@ -11,8 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { InscriptionDialogComponent } from './components/inscription-dialog/inscription-dialog.component';
 import { StudentDetailDialogComponent } from './components/student-detail-dialog/student-detail-dialog.component';
-
-
+import { CourseDetailDialogComponent } from './components/course-detail-dialog/course-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +23,7 @@ import { StudentDetailDialogComponent } from './components/student-detail-dialog
     CourseDialogComponent,
     InscriptionDialogComponent,
     StudentDetailDialogComponent,
+    CourseDetailDialogComponent,
   ],
   imports: [
     CommonModule,

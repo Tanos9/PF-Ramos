@@ -20,6 +20,7 @@ export class InscriptionsService {
     this._dataAccess.inscriptions.forEach(element => {
       inscriptionData.push(
         new InscriptionData(
+          element.id,
           this.getStudentNameById(element.studentId),
           this.getCourseNameById(element.courseId))
       )
@@ -80,6 +81,13 @@ export class InscriptionsService {
       .filter((course): course is Course => !!course);
   }
 
+  getInscribedStudentsByCourseId(studentId: number): Student[] {
+    return this._dataAccess.inscriptions
+      .filter((inscription) => inscription.studentId === studentId)
+      .map((inscription) => this._dataAccess.students.find((student) => student.id === inscription.studentId))
+      .filter((student): student is Student => !!student);
+  }
+
   getStudents(): Student[]{
     return this._dataAccess.students;
   }
@@ -89,7 +97,7 @@ export class InscriptionsService {
   }
 
   private findInscriptionIndexById(id: number) {
-    return this._dataAccess.inscriptions.findIndex(s => s.id === id)
+    return this._dataAccess.inscriptions.findIndex(i => i.id === id)
   }
   
   private getNextId(): number {

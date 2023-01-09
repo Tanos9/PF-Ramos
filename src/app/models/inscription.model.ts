@@ -8,6 +8,7 @@ export class Inscription {
 
 export class InscriptionData {
     constructor(
+        public inscriptionId: number,
         public studentName: string,
         public courseName: string,
     ) {}

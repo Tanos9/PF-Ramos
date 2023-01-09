@@ -41,8 +41,8 @@ export class InscriptionPageComponent {
     })
   }
 
-  removeInscription(inscription: Inscription) {
-    this._inscriptionService.removeInscription(inscription.id)
+  removeInscription(inscription: InscriptionData) {
+    this._inscriptionService.removeInscription(inscription.inscriptionId)
   }
 
   editInscription(inscription: Inscription) {
