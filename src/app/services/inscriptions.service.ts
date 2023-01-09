@@ -41,6 +41,7 @@ export class InscriptionsService {
     inscription.id = this.getNextId();
     this._dataAccess.inscriptions.push(inscription);
     this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
+    console.log(this._dataAccess.inscriptions)
   }
 
   editInscription(id: number, inscription: Inscription) {
@@ -81,9 +82,9 @@ export class InscriptionsService {
       .filter((course): course is Course => !!course);
   }
 
-  getInscribedStudentsByCourseId(studentId: number): Student[] {
+  getInscribedStudentsByCourseId(courseId: number): Student[] {
     return this._dataAccess.inscriptions
-      .filter((inscription) => inscription.studentId === studentId)
+      .filter((inscription) => inscription.courseId === courseId)
       .map((inscription) => this._dataAccess.students.find((student) => student.id === inscription.studentId))
       .filter((student): student is Student => !!student);
   }
