@@ -1,18 +1,29 @@
 <h1 mat-dialog-title>Datos Alumno</h1>
 <div class="dialog" mat-dialog-content>
-  <h3>-Nombre: </h3>
+  <h3>Nombre: </h3>
   <ul>
   {{ student.firstName | fullNamePipe: student.lastName }}
   </ul>
-  <h3>-Email: </h3>
+  <h3>Email: </h3>
   <ul>
   {{ student.email }}
   </ul>
-  <h3>-Inscripciones:</h3>
+  <h3>Inscripciones:</h3>
+  <div *ngIf="courses.length; else emptyList">
   <ul>
-    <li *ngFor="let course of courses">{{course.name}}</li>
+    <li *ngFor="let course of courses; let i = index">
+      {{course.name}}
+      <button (click)="removeInscription(student.id, course.id, i)" mat-icon-button color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+    </li>
   </ul>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Close</button>
 </div>
+
+<ng-template #emptyList>
+  El alumno no se encuentra inscrito a ningún curso.
+</ng-template>

@@ -67,6 +67,12 @@ export class InscriptionsService {
     this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
   }
 
+  removeSingleInscription(studentId: number, courseId: number){
+    this._dataAccess.inscriptions = this._dataAccess.inscriptions.
+      filter(i => i.studentId != studentId && i.courseId != courseId)
+    this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
+  }
+
   getInscribedCoursesByStudentId(studentId: number): Course[] {
     return this._dataAccess.inscriptions
       .filter((inscription) => inscription.studentId === studentId)
