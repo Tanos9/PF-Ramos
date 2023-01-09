@@ -17,6 +17,14 @@
     <th mat-header-cell *matHeaderCellDef>Carrera</th>
     <td mat-cell *matCellDef="let student">{{ student.career }}</td>
   </ng-container>
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef>Ver Detalle</th>
+    <td mat-cell *matCellDef="let student">
+      <button (click)="viewStudentDetails(student.id)" mat-icon-button color="black-icon">
+        <mat-icon>info</mat-icon>
+      </button>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef>Editar</th>
     <td mat-cell *matCellDef="let student">

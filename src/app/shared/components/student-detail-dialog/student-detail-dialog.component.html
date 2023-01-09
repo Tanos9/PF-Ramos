@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Datos Alumno</h1>
+<div class="dialog" mat-dialog-content>
+  <h3>-Nombre: </h3>
+  <ul>
+  {{ student.firstName | fullNamePipe: student.lastName }}
+  </ul>
+  <h3>-Email: </h3>
+  <ul>
+  {{ student.email }}
+  </ul>
+  <h3>-Inscripciones:</h3>
+  <ul>
+    <li *ngFor="let course of courses">{{course.name}}</li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+</div>

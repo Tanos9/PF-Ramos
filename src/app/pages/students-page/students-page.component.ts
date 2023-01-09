@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Course } from 'src/app/models/courses.model';
+import { Inscription } from 'src/app/models/inscription.model';
 import { Student } from 'src/app/models/student.model';
+import { InscriptionsService } from 'src/app/services/inscriptions.service';
 import { StudentsService } from 'src/app/services/students.service';
+import { StudentDetailDialogComponent } from 'src/app/shared/components/student-detail-dialog/student-detail-dialog.component';
 import { StudentDialogComponent } from 'src/app/shared/components/student-dialog/student-dialog.component';
 
 @Component({
@@ -12,11 +16,11 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
 export class StudentsPageComponent {
   students: Student[] = [];
 
-  displayedColumns = ['id', 'name', 'career', 'email', 'edit', 'delete'];
+  displayedColumns = ['id', 'name', 'career', 'email', 'details', 'edit', 'delete'];
 
   constructor(
     private readonly _dialogService: MatDialog,
-    public _studentsService : StudentsService
+    public _studentsService: StudentsService
   )
   {
     this._studentsService.studentListChanged$.subscribe(() => {
@@ -26,6 +30,22 @@ export class StudentsPageComponent {
   
   ngOnInit(){
     this.students = this._studentsService.getStudents();
+  }
+
+  viewStudentDetails(studentId: number) {
+    let student = this._studentsService.getStudentById(studentId);
+    let courses = this.getInscribedCoursesByStudentId(studentId);
+    const dialogRef = this._dialogService.open(StudentDetailDialogComponent, {
+      width: '250px',
+      data: {
+        courses: courses,
+        student: student
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   addStudent() {
@@ -53,5 +73,9 @@ export class StudentsPageComponent {
         this._studentsService.editStudent(student.id, data);
       }
     })
+  }
+
+  getInscribedCoursesByStudentId(studentId: number): Course[]{
+    return this._studentsService.getInscribedCoursesByStudentId(studentId);
   }
 }

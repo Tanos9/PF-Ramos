@@ -21,7 +21,7 @@ export class InscriptionsService {
       inscriptionData.push(
         new InscriptionData(
           this.getStudentNameById(element.studentId),
-          this.getCoursetNameById(element.courseId))
+          this.getCourseNameById(element.courseId))
       )
     });
     return inscriptionData;
@@ -32,7 +32,7 @@ export class InscriptionsService {
     return student ? student.firstName + " " + student.lastName : ''
   }
 
-  getCoursetNameById(id: number){
+  getCourseNameById(id: number){
     let course = this._dataAccess.courses.find(s => s.id === id);
     return course ? course.name : ''  }
 
@@ -65,6 +65,13 @@ export class InscriptionsService {
   removeInscriptionsByStudentId(studentId: number){
     this._dataAccess.inscriptions = this._dataAccess.inscriptions.filter(i => i.studentId != studentId)
     this.inscriptionListChanged.next(this._dataAccess.inscriptions.slice());
+  }
+
+  getInscribedCoursesByStudentId(studentId: number): Course[] {
+    return this._dataAccess.inscriptions
+      .filter((inscription) => inscription.studentId === studentId)
+      .map((inscription) => this._dataAccess.courses.find((course) => course.id === inscription.courseId))
+      .filter((course): course is Course => !!course);
   }
 
   getStudents(): Student[]{

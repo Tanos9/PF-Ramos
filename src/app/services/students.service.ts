@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Course } from '../models/courses.model';
+import { Inscription } from '../models/inscription.model';
 import { Student } from '../models/student.model';
 import { DataAccessService } from './data-access.service';
 import { InscriptionsService } from './inscriptions.service';
@@ -42,6 +44,14 @@ export class StudentsService {
     this._dataAccess.students.splice(index, 1);
 
     this.studentListChanged.next(this._dataAccess.students.slice());
+  }
+  
+  getInscribedCoursesByStudentId(studentId: number): Course[]{
+    return this._inscriptionsService.getInscribedCoursesByStudentId(studentId);
+  }
+
+  getStudentById(studentId: number) {
+    return this._dataAccess.students.find(s => s.id === studentId);
   }
 
   private findStudentIndexById(id: number) {

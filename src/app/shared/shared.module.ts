@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CourseDialogComponent } from './components/course-dialog/course-dialog.component';
 import { InscriptionDialogComponent } from './components/inscription-dialog/inscription-dialog.component';
+import { StudentDetailDialogComponent } from './components/student-detail-dialog/student-detail-dialog.component';
 
 
 
@@ -22,6 +23,7 @@ import { InscriptionDialogComponent } from './components/inscription-dialog/insc
     SideMenuComponent,
     CourseDialogComponent,
     InscriptionDialogComponent,
+    StudentDetailDialogComponent,
   ],
   imports: [
     CommonModule,
