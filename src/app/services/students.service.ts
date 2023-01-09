@@ -18,7 +18,7 @@ export class StudentsService {
   ) { }
 
   getStudents(): Student[] {
-    return this._dataAccess.students;
+    return this._dataAccess.students.slice();
   }
 
   addStudent(student: Student) {
