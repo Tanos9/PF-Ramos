@@ -15,7 +15,7 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
 export class StudentsPageComponent {
   students: Student[] = [];
   private readonly customDeleteTitle = "Confirma eliminar este alumno?";
-  private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos"
+  private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos";
 
   displayedColumns = ['id', 'name', 'career', 'email', 'details', 'edit', 'delete'];
 
