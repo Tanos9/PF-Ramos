@@ -20,13 +20,10 @@ export class StudentDialogComponent {
 
   emailControl = new FormControl('', [Validators.email, Validators.required]);
 
-  careerControl = new FormControl('', [Validators.required]);
-
   studentForm = new FormGroup({
     firstName: this.firstNameControl,
     lastName: this.lastNameControl,
-    email: this.emailControl,
-    career: this.careerControl
+    email: this.emailControl
   })
 
   constructor(

@@ -9,15 +9,15 @@ import { Student } from '../models/student.model';
 export class DataAccessService {
 
   public students: Student[] = [
-    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com', 'Ingeniería Industrial'),
-    new Student(2, 'John', 'Dude', 'thedood@outlook.com', 'Ingeniería Civil'),
-    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com', "Ingeniería en Software"),
+    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com'),
+    new Student(2, 'John', 'Dude', 'thedood@outlook.com'),
+    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com'),
   ]
 
   public courses: Course[] = [
-    new Course(1, 'Matematica 1', 'Calculo Matemático'),
-    new Course(2, 'Física 1', 'Fisica clásica'),
-    new Course(3, 'Ingeniería y Sociedad', 'Ingeniería en la sociedad actual')
+    new Course(1, 'Matematica 1', 'Aplicación de Cálculo Matemático'),
+    new Course(2, 'Física 1', 'Aplicación de Física Clásica'),
+    new Course(3, 'Quimica 1', 'Química orgánica')
   ]
 
   public inscriptions: Inscription[] = [

@@ -4,8 +4,8 @@ import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.co
 import { SharedModule } from '../shared/shared.module';
 import { PagesModule } from '../pages/pages.module';
 import { RouterModule } from '@angular/router';
-
-
+import {Component} from '@angular/core';
+import { MyMaterialModule } from '../shared/modules/my-material.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     SharedModule,
     PagesModule,
-    RouterModule
+    RouterModule,
+    MyMaterialModule
   ],
   exports: [
     DashboardLayoutComponent

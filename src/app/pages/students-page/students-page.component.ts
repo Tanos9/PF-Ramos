@@ -17,7 +17,7 @@ export class StudentsPageComponent {
   private readonly customDeleteTitle = "Confirma eliminar este alumno?";
   private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos";
 
-  displayedColumns = ['id', 'name', 'career', 'email', 'details', 'edit', 'delete'];
+  displayedColumns = ['id', 'name', 'email', 'details', 'edit', 'delete'];
 
   constructor(
     private readonly _dialogService: MatDialog,

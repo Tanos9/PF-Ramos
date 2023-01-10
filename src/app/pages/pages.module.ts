@@ -9,7 +9,7 @@ import { InscriptionPageComponent } from './inscription-page/inscription-page.co
   declarations: [
     StudentsPageComponent,
     CoursesPageComponent,
-    InscriptionPageComponent,
+    InscriptionPageComponent
   ],
   imports: [
     CommonModule,
