@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Inscription, InscriptionData } from 'src/app/models/inscription.model';
 import { Student } from 'src/app/models/student.model';
 import { InscriptionsService } from 'src/app/services/inscriptions.service';
+import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
 import { InscriptionDialogComponent } from 'src/app/shared/components/inscription-dialog/inscription-dialog.component';
 
 @Component({
@@ -11,8 +12,9 @@ import { InscriptionDialogComponent } from 'src/app/shared/components/inscriptio
   styleUrls: ['./inscription-page.component.scss']
 })
 export class InscriptionPageComponent {
-
   inscriptions: InscriptionData[] = [];
+  private readonly customDeleteTitle = "Confirma eliminar esta inscripción?";
+  private readonly customDeleteDetail = "Se eliminara la inscripción de este alumno del curso indicado"
 
   displayedColumns = ['student', 'course', 'delete'];
 
@@ -61,5 +63,21 @@ export class InscriptionPageComponent {
   getStudents(): Student[]{
     return this._inscriptionService.getStudents();
   }
+
+  openDeleteDialog(inscription: InscriptionData): void {
+    const dialogRef = this._dialogService.open(DeleteAlertDialogComponent,
+      {
+        data: {
+          customTitle: this.customDeleteTitle,
+          customDetail: this.customDeleteDetail
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeInscription(inscription);
+      }
+   });
+ }
   
 }

@@ -12,6 +12,7 @@ import { CourseDialogComponent } from './components/course-dialog/course-dialog.
 import { InscriptionDialogComponent } from './components/inscription-dialog/inscription-dialog.component';
 import { StudentDetailDialogComponent } from './components/student-detail-dialog/student-detail-dialog.component';
 import { CourseDetailDialogComponent } from './components/course-detail-dialog/course-detail-dialog.component';
+import { DeleteAlertDialogComponent } from './components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CourseDetailDialogComponent } from './components/course-detail-dialog/c
     InscriptionDialogComponent,
     StudentDetailDialogComponent,
     CourseDetailDialogComponent,
+    DeleteAlertDialogComponent,
   ],
   imports: [
     CommonModule,

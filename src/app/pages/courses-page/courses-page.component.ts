@@ -5,6 +5,7 @@ import { Student } from 'src/app/models/student.model';
 import { CoursesService } from 'src/app/services/courses.service';
 import { CourseDetailDialogComponent } from 'src/app/shared/components/course-detail-dialog/course-detail-dialog.component';
 import { CourseDialogComponent } from 'src/app/shared/components/course-dialog/course-dialog.component';
+import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
 
 @Component({
   selector: 'app-courses-page',
@@ -13,6 +14,8 @@ import { CourseDialogComponent } from 'src/app/shared/components/course-dialog/c
 })
 export class CoursesPageComponent {
   courses: Course[] = [];
+  private readonly customDeleteTitle = "Confirma eliminar este curso?";
+  private readonly customDeleteDetail = "Se eliminaran todos los datos y las inscripciones de los alumnos"
 
   displayedColumns = ['course', 'description', 'details', 'edit', 'delete'];
 
@@ -73,7 +76,22 @@ export class CoursesPageComponent {
     })
   }
 
-  
+  openDeleteDialog(course: Course): void {
+    const dialogRef = this._dialogService.open(DeleteAlertDialogComponent,
+      {
+        data: {
+          customTitle: this.customDeleteTitle,
+          customDetail: this.customDeleteDetail
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeCourse(course);
+      }
+   });
+ }
+
   getInscribedStudentsByCourseId(courseId: number): Student[]{
     return this._coursesService.getInscribedStudentsByCourseId(courseId);
   }

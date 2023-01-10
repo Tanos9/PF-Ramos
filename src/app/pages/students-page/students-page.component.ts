@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { StudentsService } from 'src/app/services/students.service';
+import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
 import { StudentDetailDialogComponent } from 'src/app/shared/components/student-detail-dialog/student-detail-dialog.component';
 import { StudentDialogComponent } from 'src/app/shared/components/student-dialog/student-dialog.component';
 
@@ -13,6 +14,8 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
 })
 export class StudentsPageComponent {
   students: Student[] = [];
+  private readonly customDeleteTitle = "Confirma eliminar este alumno?";
+  private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos"
 
   displayedColumns = ['id', 'name', 'career', 'email', 'details', 'edit', 'delete'];
 
@@ -76,4 +79,21 @@ export class StudentsPageComponent {
   getInscribedCoursesByStudentId(studentId: number): Course[]{
     return this._studentsService.getInscribedCoursesByStudentId(studentId);
   }
+
+  openDeleteDialog(student: Student): void {
+    const dialogRef = this._dialogService.open(DeleteAlertDialogComponent,
+      {
+        data: {
+          customTitle: this.customDeleteTitle,
+          customDetail: this.customDeleteDetail
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.removeStudent(student);
+      }
+   });
+ }
 }
+
