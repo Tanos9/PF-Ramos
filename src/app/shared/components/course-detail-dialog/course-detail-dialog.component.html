@@ -13,6 +13,9 @@
   <ul>
     <li *ngFor="let student of students; let i = index">
       {{student.firstName | fullNamePipe: student.lastName }}
+      <button (click)="removeStudent(student.id, course.id, i)" mat-icon-button color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
     </li>
   </ul>
   </div>

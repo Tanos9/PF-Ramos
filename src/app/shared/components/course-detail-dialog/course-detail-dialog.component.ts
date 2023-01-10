@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
+import { InscriptionsService } from 'src/app/services/inscriptions.service';
 
 @Component({
   selector: 'app-course-detail-dialog',
@@ -14,6 +15,7 @@ export class CourseDetailDialogComponent {
 
   constructor(
     private dialog: MatDialog,
+    private readonly _inscriptionService: InscriptionsService,
     public dialogRef: MatDialogRef<CourseDetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -28,5 +30,10 @@ export class CourseDetailDialogComponent {
 
   openDialog() {
     this.dialogRef = this.dialog.open(CourseDetailDialogComponent);
+  }
+
+  removeStudent(studentId: number, courseId: number, index: number){
+    this._inscriptionService.removeSingleInscription(studentId, courseId);
+    this.students.splice(index, 1);
   }
 }
