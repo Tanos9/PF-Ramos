@@ -78,15 +78,25 @@ export class InscriptionsService {
   getInscribedCoursesByStudentId(studentId: number): Course[] {
     return this._dataAccess.inscriptions
       .filter((inscription) => inscription.studentId === studentId)
-      .map((inscription) => this._dataAccess.courses.find((course) => course.id === inscription.courseId))
+      .map((inscription) => this._dataAccess.courses
+        .find((course) => course.id === inscription.courseId))
       .filter((course): course is Course => !!course);
   }
 
   getInscribedStudentsByCourseId(courseId: number): Student[] {
     return this._dataAccess.inscriptions
       .filter((inscription) => inscription.courseId === courseId)
-      .map((inscription) => this._dataAccess.students.find((student) => student.id === inscription.studentId))
+      .map((inscription) => this._dataAccess.students
+        .find((student) => student.id === inscription.studentId))
       .filter((student): student is Student => !!student);
+  }
+
+  getAvailableCoursesByStudentId(studentId: number): Course[]{
+    const inscribedCoursesId = this._dataAccess.inscriptions
+      .filter((inscription) => inscription.studentId === studentId)
+      .map((inscription) => inscription.courseId);
+    return this._dataAccess.courses
+      .filter((course) => !inscribedCoursesId.includes(course.id));
   }
 
   getStudents(): Student[]{

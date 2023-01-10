@@ -12,7 +12,7 @@ import { InscriptionsService } from 'src/app/services/inscriptions.service';
   templateUrl: './inscription-dialog.component.html'
 })
 export class InscriptionDialogComponent {
-
+  courses: Course[] = [];
   studentNameControl = new FormControl('',
   [Validators.required, Validators.minLength(2), Validators.maxLength(75)]);
 
@@ -28,11 +28,23 @@ export class InscriptionDialogComponent {
   constructor(
     private readonly dialogRef: DialogRef,
     @Inject(MAT_DIALOG_DATA) public data: InscriptionData | null,
+
     private readonly _inscriptionsService: InscriptionsService
   ) {
     if (data) {
       this.inscriptionForm.patchValue(data)
     }
+  }
+
+  ngOnInit() {
+    this.courseControl.disable();
+    this.studentNameControl.valueChanges.subscribe(value => this.filterAvailableCourses(value));
+  }
+
+  filterAvailableCourses(studentId: any) {
+    this.courseControl.setValue(null);
+    this.courseControl.enable();    
+    this.courses = this._inscriptionsService.getAvailableCoursesByStudentId(studentId);
   }
 
   getStudents(): Student[]{
