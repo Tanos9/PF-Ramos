@@ -45,8 +45,20 @@ export class DataAccessService {
 
   addStudentFromAPI(student: Student) {
     return this._httpClient.post(`${this.studentApiURL}students`, student).subscribe(_ => {
+      this.refreshStudents();
+    });
+  }
+
+  editStudentFromAPI(student: Student): void {
+    this._httpClient.put(`${this.studentApiURL}students/${student.id}`, student).subscribe(_ => {
+      this.refreshStudents();
+    });
+  }
+
+  deleteStudentFromAPI(id: number): void {
+    this._httpClient.delete(`${this.studentApiURL}students/${id}`).subscribe(_ => {
       
-    })
+    });
   }
 
   refreshStudents() {
