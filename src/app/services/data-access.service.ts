@@ -43,6 +43,18 @@ export class DataAccessService {
     return this._httpClient.get<Student[]>(`${this.studentApiURL}students`)
   }
 
+  addStudentFromAPI(student: Student) {
+    return this._httpClient.post(`${this.studentApiURL}students`, student).subscribe(_ => {
+      
+    })
+  }
+
+  refreshStudents() {
+    this.getStudentsFromAPI().subscribe(students => {
+      this.studentsAPI.next(students);
+    })
+  }
+
   // getStudents(): Observable<Student[]> {
   //   this.getStudentsFromAPI().subscribe(studentsFromApi => {
   //     this.students = studentsFromApi

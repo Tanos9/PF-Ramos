@@ -27,9 +27,8 @@ export class StudentsService {
   }
 
   addStudent(student: Student) {
-    student.id = this.getNextId();
-    this._dataAccess.students.push(student);
-    this.studentListChanged.next(this._dataAccess.students.slice());
+    this._dataAccess.addStudentFromAPI(student);
+    this.student$.subscribe(_ => this._dataAccess.refreshStudents());
   }
 
   editStudent(id: number, student: Student) {
