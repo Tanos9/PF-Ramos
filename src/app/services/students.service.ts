@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Course } from '../models/courses.model';
 import { Inscription } from '../models/inscription.model';
 import { Student } from '../models/student.model';
@@ -13,14 +13,17 @@ export class StudentsService {
 
   private studentListChanged = new Subject<Student[]>();
   public studentListChanged$ = this.studentListChanged.asObservable();
+  public student$: Observable<Student[]>;
 
   constructor(
     private readonly _dataAccess: DataAccessService,
     private readonly _inscriptionsService: InscriptionsService
-  ) { }
+  ) {
+    this.student$ = this._dataAccess.students$
+   }
 
-  getStudents(): Student[] {
-    return this._dataAccess.students.slice();
+  getStudents() {
+    return this._dataAccess.getStudentsFromAPI();
   }
 
   addStudent(student: Student) {

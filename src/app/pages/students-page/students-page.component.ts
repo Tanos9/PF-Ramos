@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { StudentsService } from 'src/app/services/students.service';
@@ -13,7 +14,7 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
   styleUrls: ['./students-page.component.scss']
 })
 export class StudentsPageComponent {
-  students: Student[] = [];
+  public student$: Observable<Student[]>;
   private readonly customDeleteTitle = "Confirma eliminar este alumno?";
   private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos";
 
@@ -24,15 +25,12 @@ export class StudentsPageComponent {
     public _studentsService: StudentsService
   )
   {
+    this.student$ = _studentsService.student$,
     this._studentsService.studentListChanged$.subscribe(() => {
-      this.students = _studentsService.getStudents();
+      this.student$ = _studentsService.student$;
     });
   }
   
-  ngOnInit(){
-    this.students = this._studentsService.getStudents();
-  }
-
   viewStudentDetails(studentId: number) {
     let student = this._studentsService.getStudentById(studentId);
     let courses = this.getInscribedCoursesByStudentId(studentId);

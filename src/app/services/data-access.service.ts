@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Course } from '../models/courses.model';
 import { Inscription } from '../models/inscription.model';
 import { Student } from '../models/student.model';
@@ -8,10 +10,15 @@ import { Student } from '../models/student.model';
 })
 export class DataAccessService {
 
+  private readonly studentApiURL = 'https://63c7156edcdc478e15cf23bb.mockapi.io/';
+  private studentsAPI = new BehaviorSubject<Student[]>([]);
+  public students$: Observable<Student[]>;
+
+
   public students: Student[] = [
-    new Student(1, 'Andrea', 'Falco', 'falquicius@gmail.com'),
-    new Student(2, 'John', 'Dude', 'thedood@outlook.com'),
-    new Student(3, 'Mike', 'Portnoy', 'drumguy@gmail.com'),
+    {id: 1, firstName: 'Andrea', lastName: 'Falco', email: 'falquicius@gmail.com'},
+    {id: 2, firstName: 'John', lastName: 'Dude', email: 'thedood@outlook.com'},
+    {id: 3, firstName: 'Mike', lastName: 'Portnoy', email: 'drumguy@gmail.com'},
   ]
 
   public courses: Course[] = [
@@ -24,6 +31,26 @@ export class DataAccessService {
     new Inscription(1, 1, 1)
   ]
 
-  constructor() { }
+  constructor(private _httpClient: HttpClient) {
+    this.students$ = this.studentsAPI.asObservable();
 
+    this.getStudentsFromAPI().subscribe(prod => {
+      this.studentsAPI.next(prod)
+   });
+  }
+
+  getStudentsFromAPI() : Observable<Student[]>{
+    return this._httpClient.get<Student[]>(`${this.studentApiURL}students`)
+  }
+
+  // getStudents(): Observable<Student[]> {
+  //   this.getStudentsFromAPI().subscribe(studentsFromApi => {
+  //     this.students = studentsFromApi
+  //     console.log("Students from api:")
+  //     console.log(studentsFromApi)
+  //     console.log("Current students list:")
+  //     console.log(this.students)
+  //   })
+  //   return this.students
+  // }
 }
