@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { CoursesService } from 'src/app/services/courses.service';
@@ -13,7 +14,7 @@ import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-ale
   styleUrls: ['./courses-page.component.scss']
 })
 export class CoursesPageComponent {
-  courses: Course[] = [];
+  public courses$!: Observable<Course[]>;
   private readonly customDeleteTitle = "Confirma eliminar este curso?";
   private readonly customDeleteDetail = "Se eliminaran todos los datos y las inscripciones de los alumnos"
 
@@ -24,13 +25,10 @@ export class CoursesPageComponent {
     private readonly _coursesService: CoursesService
   )
   {
-    this._coursesService.coursesListChanged$.subscribe(() => {
-      this.courses = _coursesService.getCourses();
-    });
   }
 
-  ngOnInit(){
-    this.courses = this._coursesService.getCourses();
+  ngOnInit() : void{
+    this.courses$ = this._coursesService.courses$;
   }
 
   viewCourseDetails(courseId: number) {

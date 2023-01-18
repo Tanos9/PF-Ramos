@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { StudentsService } from 'src/app/services/students.service';
@@ -14,8 +14,7 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
   styleUrls: ['./students-page.component.scss']
 })
 export class StudentsPageComponent implements OnInit {
-  public students!: Student[];
-  public subscription!: Subscription;
+  public students$!: Observable<Student[]>;
   private readonly customDeleteTitle = "Confirma eliminar este alumno?";
   private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos";
 
@@ -29,13 +28,7 @@ export class StudentsPageComponent implements OnInit {
   }
 
   ngOnInit() : void{
-    this.subscription = this._studentsService.students$.subscribe(stud =>{
-      this.students = stud
-    });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.students$ = this._studentsService.students$;
   }
 
   viewStudentDetails(studentId: number) {

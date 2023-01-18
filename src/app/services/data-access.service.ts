@@ -9,11 +9,12 @@ import { Student } from '../models/student.model';
   providedIn: 'root'
 })
 export class DataAccessService {
+  private readonly URL = 'https://63c7156edcdc478e15cf23bb.mockapi.io/';
 
-  private readonly studentApiURL = 'https://63c7156edcdc478e15cf23bb.mockapi.io/';
-  private studentsAPI = new BehaviorSubject<Student[]>([]);
+  private studentsObs = new BehaviorSubject<Student[]>([]);
   public students$: Observable<Student[]>;
-
+  private coursesObs = new BehaviorSubject<Course[]>([]);
+  public courses$: Observable<Course[]>;
 
   public students: Student[] = [
     {id: 1, firstName: 'Andrea', lastName: 'Falco', email: 'falquicius@gmail.com'},
@@ -31,50 +32,75 @@ export class DataAccessService {
     new Inscription(1, 1, 1)
   ]
 
-  constructor(private _httpClient: HttpClient) {
-    this.students$ = this.studentsAPI.asObservable();
-
-    this.getStudentsFromAPI().subscribe(prod => {
-      this.studentsAPI.next(prod)
-   });
+  constructor(private _httpClient: HttpClient
+    ) {
+      this.students$ = this.studentsObs.asObservable();
+      this.getStudentsFromAPI().subscribe(students => {
+        this.studentsObs.next(students);
+      });
+      this.courses$ = this.coursesObs.asObservable();
+      this.getCoursesFromAPI().subscribe(courses => {
+        this.coursesObs.next(courses);
+      });
   }
+  
+  //Students
 
   getStudentsFromAPI() : Observable<Student[]>{
-    return this._httpClient.get<Student[]>(`${this.studentApiURL}students`)
+    return this._httpClient.get<Student[]>(`${this.URL}students`)
   }
 
   addStudentFromAPI(student: Student) {
-    return this._httpClient.post(`${this.studentApiURL}students`, student).subscribe(_ => {
-      this.refreshStudents();
+    return this._httpClient.post(`${this.URL}students`, student).subscribe(_ => {
+      this.refreshStudentsList();
     });
   }
 
   editStudentFromAPI(student: Student): void {
-    this._httpClient.put(`${this.studentApiURL}students/${student.id}`, student).subscribe(_ => {
-      this.refreshStudents();
+    this._httpClient.put(`${this.URL}students/${student.id}`, student).subscribe(_ => {
+      this.refreshStudentsList();
     });
   }
 
   deleteStudentFromAPI(id: number): void {
-    this._httpClient.delete(`${this.studentApiURL}students/${id}`).subscribe(_ => {
-      
+    this._httpClient.delete(`${this.URL}students/${id}`).subscribe(_ => {
+      this.refreshStudentsList();
     });
   }
 
-  refreshStudents() {
+  refreshStudentsList() {
     this.getStudentsFromAPI().subscribe(students => {
-      this.studentsAPI.next(students);
+      this.studentsObs.next(students);
     })
   }
 
-  // getStudents(): Observable<Student[]> {
-  //   this.getStudentsFromAPI().subscribe(studentsFromApi => {
-  //     this.students = studentsFromApi
-  //     console.log("Students from api:")
-  //     console.log(studentsFromApi)
-  //     console.log("Current students list:")
-  //     console.log(this.students)
-  //   })
-  //   return this.students
-  // }
+  //Courses
+
+  getCoursesFromAPI() : Observable<Course[]>{
+    return this._httpClient.get<Course[]>(`${this.URL}courses`)
+  }
+
+  addCourseFromAPI(course: Course) {
+    return this._httpClient.post(`${this.URL}courses`, course).subscribe(_ => {
+      this.refreshCoursesList();
+    });
+  }
+
+  editCourseFromAPI(course: Course): void {
+    this._httpClient.put(`${this.URL}courses/${course.id}`, course).subscribe(_ => {
+      this.refreshCoursesList();
+    });
+  }
+
+  deleteCourseFromAPI(id: number): void {
+    this._httpClient.delete(`${this.URL}courses/${id}`).subscribe(_ => {
+      this.refreshCoursesList();
+    });
+  }
+
+  refreshCoursesList() {
+    this.getCoursesFromAPI().subscribe(courses => {
+      this.coursesObs.next(courses);
+    })
+  }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Inscription, InscriptionData } from 'src/app/models/inscription.model';
 import { Student } from 'src/app/models/student.model';
 import { InscriptionsService } from 'src/app/services/inscriptions.service';
@@ -12,7 +13,7 @@ import { InscriptionDialogComponent } from 'src/app/shared/components/inscriptio
   styleUrls: ['./inscription-page.component.scss']
 })
 export class InscriptionPageComponent {
-  inscriptions: InscriptionData[] = [];
+  public inscriptions!: InscriptionData[];
   private readonly customDeleteTitle = "Confirma eliminar esta inscripción?";
   private readonly customDeleteDetail = "Se eliminara la inscripción de este alumno del curso indicado"
 
@@ -23,7 +24,7 @@ export class InscriptionPageComponent {
     private readonly _inscriptionService: InscriptionsService
   )
   {
-    this._inscriptionService.inscriptionListChanged$.subscribe(() => {
+    this._inscriptionService.inscriptions$.subscribe(() => {
       this.inscriptions = _inscriptionService.getInscriptions();
     });
   }
@@ -31,6 +32,7 @@ export class InscriptionPageComponent {
   ngOnInit(){
     this.inscriptions = this._inscriptionService.getInscriptions();
   }
+
 
   addInscription() {
     const dialog = this._dialogService.open(InscriptionDialogComponent)

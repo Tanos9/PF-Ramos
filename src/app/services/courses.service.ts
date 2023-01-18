@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Course } from '../models/courses.model';
 import { Student } from '../models/student.model';
 import { DataAccessService } from './data-access.service';
@@ -9,13 +9,15 @@ import { InscriptionsService } from './inscriptions.service';
   providedIn: 'root'
 })
 export class CoursesService {
-
-  private coursesListChanged = new Subject<Course[]>();
-  public coursesListChanged$ = this.coursesListChanged.asObservable();
+  private readonly URL = 'https://63c7156edcdc478e15cf23bb.mockapi.io/';
+  public courses$: Observable<Course[]>;
 
   constructor(
     private readonly _dataAccess: DataAccessService,
-    private readonly _InscriptionService: InscriptionsService) { }
+    private readonly _inscriptionService: InscriptionsService)
+  {
+    this.courses$ = this._dataAccess.courses$;
+  }
 
   getCourses(): Course[] {
     return this._dataAccess.courses.slice();
@@ -26,38 +28,20 @@ export class CoursesService {
   }
 
   addCourse(course: Course) {
-    course.id = this.getNextId();
-    this._dataAccess.courses.push(course);
-    this.coursesListChanged.next(this._dataAccess.courses.slice());
+    this._dataAccess.addCourseFromAPI(course);
   }
 
   editCourse(id: number, course: Course) {
-    let index = this.findCourseIndexById(id);
     course.id = id;
-    this._dataAccess.courses[index] = course;
-
-    this.coursesListChanged.next(this._dataAccess.courses.slice());
+    this._dataAccess.editCourseFromAPI(course);
   }
 
   removeCourse(id: number) {
-    this._InscriptionService.removeInscriptionsByCourseId(id);
-    
-    let index = this.findCourseIndexById(id);
-    this._dataAccess.courses.splice(index, 1);
-
-    this.coursesListChanged.next(this._dataAccess.courses.slice());
+    this._inscriptionService.removeInscriptionsByCourseId(id);
+    this._dataAccess.deleteCourseFromAPI(id);
   }
 
   getInscribedStudentsByCourseId(courseId: number): Student[]  {
-    return this._InscriptionService.getInscribedStudentsByCourseId(courseId);
-  }
-
-  private findCourseIndexById(id: number) {
-    return this._dataAccess.courses.findIndex(s => s.id === id)
-  }
-  
-  private getNextId(): number {
-    const maxId = this._dataAccess.courses.reduce((prev, curr) => Math.max(prev, curr.id), 0);
-    return maxId + 1;
+    return this._inscriptionService.getInscribedStudentsByCourseId(courseId);
   }
 }
