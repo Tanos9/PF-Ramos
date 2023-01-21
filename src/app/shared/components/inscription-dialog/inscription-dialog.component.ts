@@ -13,11 +13,9 @@ import { InscriptionsService } from 'src/app/services/inscriptions.service';
 })
 export class InscriptionDialogComponent {
   courses: Course[] = [];
-  studentNameControl = new FormControl('',
-  [Validators.required, Validators.minLength(2), Validators.maxLength(75)]);
+  studentNameControl = new FormControl('', [Validators.required]);
 
-  courseControl = new FormControl('',
-  [Validators.required, Validators.minLength(2), Validators.maxLength(200)]);
+  courseControl = new FormControl('', [Validators.required]);
 
 
   inscriptionForm = new FormGroup({
@@ -28,9 +26,9 @@ export class InscriptionDialogComponent {
   constructor(
     private readonly dialogRef: DialogRef,
     @Inject(MAT_DIALOG_DATA) public data: InscriptionData | null,
-
     private readonly _inscriptionsService: InscriptionsService
-  ) {
+  )
+  {
     if (data) {
       this.inscriptionForm.patchValue(data)
     }

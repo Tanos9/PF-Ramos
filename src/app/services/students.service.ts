@@ -38,6 +38,6 @@ export class StudentsService {
   }
 
   getStudentById(studentId: number) {
-    return this._dataAccess.students.find(s => s.id === studentId);
+    return this._dataAccess.getStudents().find(s => s.id === studentId);
   }
 }

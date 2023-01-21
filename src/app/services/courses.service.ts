@@ -20,11 +20,11 @@ export class CoursesService {
   }
 
   getCourses(): Course[] {
-    return this._dataAccess.courses.slice();
+    return this._dataAccess.getCourses().slice();
   }
 
   getCourseById(courseId: number) {
-    return this._dataAccess.courses.find(c => c.id === courseId)
+    return this._dataAccess.getCourses().find(s => s.id === courseId);
   }
 
   addCourse(course: Course) {
@@ -41,7 +41,11 @@ export class CoursesService {
     this._dataAccess.deleteCourseFromAPI(id);
   }
 
-  getInscribedStudentsByCourseId(courseId: number): Student[]  {
-    return this._inscriptionService.getInscribedStudentsByCourseId(courseId);
+  getInscribedStudentsByCourseId(courseId: number): Student[] {
+    return this._dataAccess.getInscriptions()
+      .filter((inscription) => inscription.courseId == courseId)
+      .map((inscription) => this._dataAccess.getStudents()
+        .find((student) => student.id === inscription.studentId))
+      .filter((student): student is Student => !!student);
   }
 }

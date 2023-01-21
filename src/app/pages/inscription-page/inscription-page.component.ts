@@ -62,10 +62,6 @@ export class InscriptionPageComponent {
     })
   }
 
-  getStudents(): Student[]{
-    return this._inscriptionService.getStudents();
-  }
-
   openDeleteDialog(inscription: InscriptionData): void {
     const dialogRef = this._dialogService.open(DeleteAlertDialogComponent,
       {
@@ -81,5 +77,4 @@ export class InscriptionPageComponent {
       }
    });
  }
-  
 }

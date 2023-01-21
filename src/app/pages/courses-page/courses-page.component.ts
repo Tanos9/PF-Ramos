@@ -90,7 +90,7 @@ export class CoursesPageComponent {
    });
  }
 
-  getInscribedStudentsByCourseId(courseId: number): Student[]{
+  getInscribedStudentsByCourseId(courseId: number): Student[] {
     return this._coursesService.getInscribedStudentsByCourseId(courseId);
   }
   
