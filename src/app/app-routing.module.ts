@@ -4,26 +4,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { StudentsPageComponent } from './pages/students-page/students-page.component';
 import { CoursesPageComponent } from './pages/courses-page/courses-page.component';
-import { InscriptionPageComponent } from './pages/inscription-page/inscription-page.component';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    component: DashboardLayoutComponent,
-    children: [
-      {
-        path: 'students',
-        component: StudentsPageComponent
-      },
-      {
-        path: 'courses',
-        component: CoursesPageComponent
-      },
-      {
-        path: 'inscriptions',
-        component: InscriptionPageComponent
-      }
-    ]
+    path: 'dashboard',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./layouts/layouts.module')
+      .then((module) => module.LayoutsModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((module) => module.AuthModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'auth'
   }
 ]
 
