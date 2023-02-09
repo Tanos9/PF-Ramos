@@ -23,6 +23,11 @@ const routes: Routes = [
         path: 'inscriptions',
         loadChildren: () => import('../pages/inscription-page/inscriptions.module')
           .then((module) => module.InscriptionsModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('../pages/users-page/users.module')
+          .then((module) => module.UsersModule)
       }
     ]
   }]

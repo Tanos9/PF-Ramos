@@ -28,9 +28,9 @@ export const authReducer = createReducer(
             authenticatedUser: new User(
                 oldState.authenticatedUser.id,
                 oldState.authenticatedUser.email,
-                payload.first_name || oldState.authenticatedUser.first_name,
-                payload.last_name || oldState.authenticatedUser.last_name,
-                oldState.authenticatedUser.avatar
+                payload.first_name || oldState.authenticatedUser.firstName,
+                payload.last_name || oldState.authenticatedUser.lastName,
+                oldState.authenticatedUser.isAdmin
             )
         }
     })

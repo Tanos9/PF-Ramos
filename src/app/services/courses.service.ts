@@ -9,7 +9,6 @@ import { InscriptionsService } from './inscriptions.service';
   providedIn: 'root'
 })
 export class CoursesService {
-  private readonly URL = 'https://63c7156edcdc478e15cf23bb.mockapi.io/';
   public courses$: Observable<Course[]>;
 
   constructor(

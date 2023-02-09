@@ -9,7 +9,7 @@ const expectedUser = new User(
   'michael.lawson@reqres.in',
   'Michael',
   'Lawson',
-  'https://reqres.in/img/faces/7-image.jpg',
+  true
 );
 
 fdescribe('AuthService', () => {
@@ -55,7 +55,7 @@ fdescribe('AuthService', () => {
         email: 'michael.lawson@reqres.in',
         first_name: 'Michael',
         last_name: 'Lawson',
-        avatar: 'https://reqres.in/img/faces/7-image.jpg'
+        isAdmin: true
       },
       support: {
           url: 'https://reqres.in/#support-heading',

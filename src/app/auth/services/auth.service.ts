@@ -36,12 +36,11 @@ export class AuthService {
             new User(
               data.id,
               data.email,
-              data.first_name,
-              data.last_name,
-              data.avatar
+              data.firstName,
+              data.lastName,
+              data.isAdmin
             )
         ),
-        // tap((user) => this.sessionService.setUser(user))
         tap(
           (user) => this.store.dispatch(
             setAuthenticatedUser({
@@ -75,9 +74,9 @@ export class AuthService {
               authenticatedUser: new User(
                 data.id,
                 data.email,
-                data.first_name,
-                data.last_name,
-                data.avatar
+                data.firstName,
+                data.lastName,
+                data.isAdmin
               )
             })
           )

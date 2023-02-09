@@ -9,14 +9,14 @@ import { InscriptionsService } from './inscriptions.service';
   providedIn: 'root'
 })
 export class StudentsService {
-  public students$: Observable<Student[]>;
+  public users$: Observable<Student[]>;
   
   constructor(
     private readonly _inscriptionsService: InscriptionsService,
     private readonly _dataAccess: DataAccessService
   )
  {
-    this.students$ = this._dataAccess.students$;
+    this.users$ = this._dataAccess.students$;
  }
 
   addStudent(student: Student) {
