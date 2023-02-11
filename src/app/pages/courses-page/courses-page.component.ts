@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { authenticatedUserSelector } from 'src/app/auth/store/auth.actions';
+import { AppState } from 'src/app/core/models/app-state.model';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { CoursesService } from 'src/app/services/courses.service';
@@ -14,21 +17,34 @@ import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-ale
   styleUrls: ['./courses-page.component.scss']
 })
 export class CoursesPageComponent {
+  user: any;
   public courses$!: Observable<Course[]>;
   private readonly customDeleteTitle = "Confirma eliminar este curso?";
   private readonly customDeleteDetail = "Se eliminaran todos los datos y las inscripciones de los alumnos"
 
-  displayedColumns = ['course', 'description', 'details', 'edit', 'delete'];
+  displayedColumns = ['course', 'description', 'details'];
 
   constructor(
     private readonly _dialogService: MatDialog,
-    private readonly _coursesService: CoursesService
+    private readonly _coursesService: CoursesService,
+    private readonly _store: Store<AppState>
   )
   {
   }
 
   ngOnInit() : void{
     this.courses$ = this._coursesService.courses$;
+    this._store.select(authenticatedUserSelector).subscribe((user) => {
+      this.user = user;
+      this.setAdminOptions();
+    });
+  }
+
+  setAdminOptions(){
+    if(this.user.isAdmin) {
+      this.displayedColumns.push('edit');
+      this.displayedColumns.push('delete');
+    }
   }
 
   viewCourseDetails(courseId: number) {
@@ -43,7 +59,6 @@ export class CoursesPageComponent {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -93,5 +108,4 @@ export class CoursesPageComponent {
   getInscribedStudentsByCourseId(courseId: number): Student[] {
     return this._coursesService.getInscribedStudentsByCourseId(courseId);
   }
-  
 }

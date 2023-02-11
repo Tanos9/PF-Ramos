@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { authenticatedUserSelector } from 'src/app/auth/store/auth.actions';
+import { AppState } from 'src/app/core/models/app-state.model';
 import { Inscription, InscriptionData } from 'src/app/models/inscription.model';
 import { Student } from 'src/app/models/student.model';
 import { InscriptionsService } from 'src/app/services/inscriptions.service';
@@ -14,14 +17,16 @@ import { InscriptionDialogComponent } from 'src/app/shared/components/inscriptio
 })
 export class InscriptionPageComponent {
   public inscriptions!: InscriptionData[];
+  private user: any;
   private readonly customDeleteTitle = "Confirma eliminar esta inscripción?";
   private readonly customDeleteDetail = "Se eliminara la inscripción de este alumno del curso indicado"
 
-  displayedColumns = ['student', 'course', 'delete'];
+  displayedColumns = ['student', 'course'];
 
   constructor(
     private readonly _dialogService: MatDialog,
-    private readonly _inscriptionService: InscriptionsService
+    private readonly _inscriptionService: InscriptionsService,
+    private readonly _store: Store<AppState>
   )
   {
     this._inscriptionService.inscriptions$.subscribe(() => {
@@ -31,8 +36,17 @@ export class InscriptionPageComponent {
 
   ngOnInit(){
     this.inscriptions = this._inscriptionService.getInscriptions();
+    this._store.select(authenticatedUserSelector).subscribe((user) => {
+      this.user = user;
+    });
+    this.setAdminOptions();
   }
 
+  setAdminOptions(){
+    if(this.user.isAdmin) {
+      this.displayedColumns.push('delete');
+    }
+  }
 
   addInscription() {
     const dialog = this._dialogService.open(InscriptionDialogComponent)

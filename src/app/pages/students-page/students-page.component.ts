@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { authenticatedUserSelector } from 'src/app/auth/store/auth.actions';
+import { AppState } from 'src/app/core/models/app-state.model';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { StudentsService } from 'src/app/services/students.service';
@@ -15,20 +18,33 @@ import { StudentDialogComponent } from 'src/app/shared/components/student-dialog
 })
 export class StudentsPageComponent implements OnInit {
   public students$!: Observable<Student[]>;
+  private user: any;
   private readonly customDeleteTitle = "Confirma eliminar este alumno?";
   private readonly customDeleteDetail = "Se eliminaran todos sus datos y las inscripciones a los cursos";
 
-  displayedColumns = ['id', 'name', 'email', 'details', 'edit', 'delete'];
+  displayedColumns = ['id', 'name', 'email', 'details'];
 
   constructor(
     private readonly _dialogService: MatDialog,
-    public _studentsService: StudentsService
+    public _studentsService: StudentsService,
+    private readonly _store: Store<AppState>
   )
   {
   }
 
   ngOnInit() : void{
     this.students$ = this._studentsService.users$;
+    this._store.select(authenticatedUserSelector).subscribe((user) => {
+      this.user = user;
+    });
+    this.setAdminOptions();
+  }
+
+  setAdminOptions(){
+    if(this.user.isAdmin) {
+      this.displayedColumns.push('edit');
+      this.displayedColumns.push('delete');
+    }
   }
 
   viewStudentDetails(studentId: number) {
@@ -43,7 +59,6 @@ export class StudentsPageComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

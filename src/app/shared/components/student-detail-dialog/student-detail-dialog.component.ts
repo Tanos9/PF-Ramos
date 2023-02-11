@@ -1,5 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { authenticatedUserSelector } from 'src/app/auth/store/auth.actions';
+import { AppState } from 'src/app/core/models/app-state.model';
 import { Course } from 'src/app/models/courses.model';
 import { Student } from 'src/app/models/student.model';
 import { InscriptionsService } from 'src/app/services/inscriptions.service';
@@ -15,16 +18,21 @@ export class StudentDetailDialogComponent {
   private readonly customDeleteDetail = "Se eliminara la inscripción a este curso";
   courses: Course[] = []; 
   student!: Student;
+  user: any;
 
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<StudentDetailDialogComponent>,
     private readonly _inscriptionService: InscriptionsService,
+    private readonly _store: Store<AppState>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.courses = this.data.courses;
     this.student = this.data.student;
+    this._store.select(authenticatedUserSelector).subscribe((user) => {
+      this.user = user;
+    });
   }
 
   onNoClick(): void {

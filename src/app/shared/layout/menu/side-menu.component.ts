@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/models/app-state.model';
-import { User } from 'src/app/models/user.model';
-import { authenticatedUserSelector, setAuthenticatedUser } from 'src/app/auth/store/auth.actions';
+import { authenticatedUserSelector } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-side-menu',

@@ -13,7 +13,7 @@
   <ul>
     <li *ngFor="let course of courses; let i = index">
       {{course.name}}
-      <button (click)="openDeleteDialog(student.id, course.id, i)" mat-icon-button color="warn">
+      <button *ngIf="user.isAdmin" (click)="openDeleteDialog(student.id, course.id, i)" mat-icon-button color="warn">
       <mat-icon>delete</mat-icon>
     </button>
     </li>
