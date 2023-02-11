@@ -1,18 +1,18 @@
 <main>
   <mat-card class="col-4">
     <mat-card-header class="mb-3">
-      <mat-card-title>Iniciar sesión</mat-card-title>
+      <mat-card-title>Iniciar Sesión</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form class="flex flex-column" [formGroup]="form">
         <mat-form-field appearance="outline">
-          <mat-label>Outline form field</mat-label>
-          <input formControlName="email" type="email" matInput placeholder="Placeholder">
+          <mat-label>Email del usuario</mat-label>
+          <input formControlName="email" type="email" matInput placeholder="Ingrese el email">
           <mat-icon matSuffix>email</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Outline form field</mat-label>
-          <input formControlName="password" type="password" matInput placeholder="Placeholder">
+          <mat-label>Contraseña</mat-label>
+          <input formControlName="password" type="password" matInput placeholder="Ingrese la contraseña">
           <mat-icon matSuffix>key</mat-icon>
         </mat-form-field>
       </form>
