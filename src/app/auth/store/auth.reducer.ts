@@ -20,7 +20,10 @@ export const authReducer = createReducer(
             authenticatedUser: payload.authenticatedUser
         }
     }),
-    on(unsetAuthenticatedUser, (oldState) => ({ ...oldState, authenticatedUser: null })),
+    on(unsetAuthenticatedUser, () => {
+        localStorage.removeItem('token');
+        return initialState;
+      }),
     on(updateAuthenticatedUser, (oldState, payload) => {
         if (!oldState.authenticatedUser) return oldState;
         return {

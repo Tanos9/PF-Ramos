@@ -5,19 +5,23 @@ import { User } from 'src/app/models/user.model';
 import { setAuthenticatedUser, unsetAuthenticatedUser } from 'src/app/auth/store/auth.actions';
 import { AppState } from 'src/app/core/models/app-state.model';
 import { UsersService } from 'src/app/services/users.service';
+import { Observable } from 'rxjs';
+import { selectIsAuthenticated } from '../store/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = 'https://reqres.in/api';
   userToken = 'userToken';
+  public isAuthenticated$: Observable<boolean>;
 
   constructor(
     private readonly store: Store<AppState>,
     private readonly userService: UsersService,
     private readonly router: Router,
-  ) {}
+  ) {
+    this.isAuthenticated$ = this.store.select(selectIsAuthenticated);
+  }
 
   searchUser(email: string, password: string, users: User[])  {
     return users.find(u => u.email === email && u.password === password)
@@ -56,7 +60,7 @@ export class AuthService {
     this.router.navigate(['auth', 'login']);
   }
 
-  verifyToken(): boolean {
+    verifyToken(): boolean {
     const lsToken = localStorage.getItem('token');
     return typeof lsToken !== "undefined";
 
