@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { UsersService } from 'src/app/services/users.service';
 import { DeleteAlertDialogComponent } from 'src/app/shared/components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
-import { StudentDetailDialogComponent } from 'src/app/shared/components/student-detail-dialog/student-detail-dialog.component';
-import { StudentDialogComponent } from 'src/app/shared/components/student-dialog/student-dialog.component';
+import { UserDialogComponent } from 'src/app/shared/components/user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-users-page',
@@ -30,21 +29,8 @@ export class UsersPageComponent implements OnInit {
     this.users$ = this._usersService.users$;
   }
 
-  viewUserDetails(userId: number) {
-    let user = this._usersService.getUserById(userId);
-    const dialogRef = this._dialogService.open(StudentDetailDialogComponent, {
-      width: '250px',
-      data: {
-        user: user
-      }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
-
   addUser() {
-    const dialog = this._dialogService.open(StudentDialogComponent)
+    const dialog = this._dialogService.open(UserDialogComponent)
 
     dialog.afterClosed().subscribe((value) => {
       if (value) {
@@ -58,7 +44,7 @@ export class UsersPageComponent implements OnInit {
   }
 
   editUser(user: User) {
-    const dialog = this._dialogService.open(StudentDialogComponent,
+    const dialog = this._dialogService.open(UserDialogComponent,
     {
       data: user,
     })

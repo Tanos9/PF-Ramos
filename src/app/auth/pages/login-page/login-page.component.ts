@@ -14,8 +14,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   public loading = false
   private users$: Observable<User[]>;
   public form = new FormGroup({
-    email: new FormControl('dimebag@gmail.com', [Validators.required]),
-    password: new FormControl('dime', [Validators.required]),
+    email: new FormControl('jp@gmail.com', [Validators.required]),
+    password: new FormControl('theater', [Validators.required]),
   })
   private destroyed$ = new Subject();
 

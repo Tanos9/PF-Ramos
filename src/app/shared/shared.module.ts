@@ -13,10 +13,12 @@ import { InscriptionDialogComponent } from './components/inscription-dialog/insc
 import { StudentDetailDialogComponent } from './components/student-detail-dialog/student-detail-dialog.component';
 import { CourseDetailDialogComponent } from './components/course-detail-dialog/course-detail-dialog.component';
 import { DeleteAlertDialogComponent } from './components/delete-alert-dialog/delete-alert-dialog/delete-alert-dialog.component';
+import { UserDialogComponent } from './components/user-dialog/user-dialog.component';
 
 @NgModule({
   declarations: [
     StudentDialogComponent,
+    UserDialogComponent,
     TitlesSizeDirective,
     FullNamePipe,
     HeaderComponent,
@@ -35,6 +37,7 @@ import { DeleteAlertDialogComponent } from './components/delete-alert-dialog/del
   ],
   exports: [
     StudentDialogComponent,
+    UserDialogComponent,
     TitlesSizeDirective,
     FullNamePipe,
     HeaderComponent,
