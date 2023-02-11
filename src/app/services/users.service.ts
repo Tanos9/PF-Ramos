@@ -20,6 +20,10 @@ export class UsersService {
     return this._dataAccess.getUsers().slice();
   }
 
+  getUsersAuth(): Observable<User[]> {
+    return this._dataAccess.getUsersFromAPI();
+  }
+
   getUserById(userId: number) {
     return this._dataAccess.getUsers().find(s => s.id === userId);
   }

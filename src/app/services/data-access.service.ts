@@ -22,18 +22,6 @@ export class DataAccessService {
   private usersObs = new BehaviorSubject<User[]>([]);
   public users$: Observable<User[]>;
 
-  public students: Student[] = [
-    {id: 1, firstName: 'Andrea', lastName: 'Falco', email: 'falquicius@gmail.com'},
-    {id: 2, firstName: 'John', lastName: 'Dude', email: 'thedood@outlook.com'},
-    {id: 3, firstName: 'Mike', lastName: 'Portnoy', email: 'drumguy@gmail.com'},
-  ]
-
-  public courses: Course[] = [
-    new Course(1, 'Matematica 1', 'Aplicación de Cálculo Matemático'),
-    new Course(2, 'Física 1', 'Aplicación de Física Clásica'),
-    new Course(3, 'Quimica 1', 'Química orgánica')
-  ]
-
   public inscriptions: Inscription[] = [
     new Inscription(1, 1, 1)
   ]

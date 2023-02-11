@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/models/app-state.model';
+import { User } from 'src/app/models/user.model';
+import { authenticatedUserSelector, setAuthenticatedUser } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-side-menu',
@@ -6,5 +10,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent {
+  user: any;
+
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit(): void {
+    this.store.select(authenticatedUserSelector).subscribe((user) => {
+      this.user = user;
+    });
+  }
 
 }

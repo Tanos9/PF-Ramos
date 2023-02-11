@@ -30,7 +30,8 @@ export const authReducer = createReducer(
                 oldState.authenticatedUser.email,
                 payload.first_name || oldState.authenticatedUser.firstName,
                 payload.last_name || oldState.authenticatedUser.lastName,
-                oldState.authenticatedUser.isAdmin
+                oldState.authenticatedUser.isAdmin,
+                oldState.authenticatedUser.password
             )
         }
     })

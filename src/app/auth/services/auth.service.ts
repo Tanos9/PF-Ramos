@@ -1,54 +1,53 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, map, mergeMap, of, tap } from 'rxjs';
-import {
-  LoginSuccessful,
-  SingleUserResponse,
-} from 'src/app/models/reqres.interfaces';
 import { User } from 'src/app/models/user.model';
 import { setAuthenticatedUser, unsetAuthenticatedUser } from 'src/app/auth/store/auth.actions';
 import { AppState } from 'src/app/core/models/app-state.model';
+import { UsersService } from 'src/app/services/users.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   apiUrl = 'https://reqres.in/api';
+  userToken = 'userToken';
 
   constructor(
-    private readonly httpClient: HttpClient,
     private readonly store: Store<AppState>,
+    private readonly userService: UsersService,
     private readonly router: Router,
   ) {}
 
-  login(data: { email: string; password: string }): Observable<any> {
-    return this.httpClient
-      .post<LoginSuccessful>(`${this.apiUrl}/login`, data)
-      .pipe(
-        tap((data) => localStorage.setItem('token', data.token)),
-        mergeMap(() =>
-          this.httpClient.get<SingleUserResponse>(`${this.apiUrl}/users/7`)
-        ),
-        map(
-          ({ data }) =>
-            new User(
-              data.id,
-              data.email,
-              data.firstName,
-              data.lastName,
-              data.isAdmin
-            )
-        ),
-        tap(
-          (user) => this.store.dispatch(
-            setAuthenticatedUser({
-              authenticatedUser: user
-            })
-          )
-        )
-      );
+  searchUser(email: string, password: string, users: User[])  {
+    return users.find(u => u.email === email && u.password === password)
+  }
+
+  login(data: { email: string; password: string }, users: User[]): boolean {
+    let isAuth = false;
+    let user = this.searchUser(data.email, data.password, users);
+    if (typeof user === "undefined") {
+      return isAuth;
+    }
+
+    isAuth = true;
+    localStorage.setItem('token', this.userToken);
+    let authUser = new User(
+      user!.id,
+      user!.email,
+      user!.firstName,
+      user!.lastName,
+      user!.isAdmin,
+      user!.password
+    );
+
+    this.store.dispatch(
+      setAuthenticatedUser({
+        authenticatedUser: authUser
+      })
+    );
+
+    return isAuth;
   }
 
   logOut() {
@@ -57,32 +56,9 @@ export class AuthService {
     this.router.navigate(['auth', 'login']);
   }
 
-  verifyToken(): Observable<boolean> {
+  verifyToken(): boolean {
     const lsToken = localStorage.getItem('token');
+    return typeof lsToken !== "undefined";
 
-    return of(lsToken)
-      .pipe(
-        tap((token) => {
-          if (!token) throw new Error('Token invalido')
-        }),
-        mergeMap((token) =>
-          this.httpClient.get<SingleUserResponse>(`${this.apiUrl}/users/7`)
-        ),
-        tap(({ data }) =>
-          this.store.dispatch(
-            setAuthenticatedUser({
-              authenticatedUser: new User(
-                data.id,
-                data.email,
-                data.firstName,
-                data.lastName,
-                data.isAdmin
-              )
-            })
-          )
-        ),
-        map((user) => !!user),
-        catchError(() => of(false))
-      )
   }
 }

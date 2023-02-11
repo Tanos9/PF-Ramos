@@ -1,4 +1,5 @@
-import { createAction, props } from "@ngrx/store";
+import { createAction, createSelector, props } from "@ngrx/store";
+import { AppState } from "src/app/core/models/app-state.model";
 import { User } from "src/app/models/user.model";
 
 export const setAuthenticatedUser = createAction(
@@ -11,3 +12,9 @@ export const updateAuthenticatedUser = createAction(
     '[AUTH] UPDATE USER',
     props<{ first_name: string; last_name: string }>()
 )
+
+export const authStateSelector = (appState: AppState) => appState.auth;
+export const authenticatedUserSelector = createSelector(
+    authStateSelector,
+    (authState) => authState.authenticatedUser
+);

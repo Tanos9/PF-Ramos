@@ -6,15 +6,17 @@
       <span class="fs-4">Secciones</span>
     </a>
     <hr>
-    <a mat-button routerLink="students" color="primary">Estudiantes</a>
+      <a mat-button routerLink="students" color="secondary">Estudiantes</a>
     <hr>
     <hr>
-    <a mat-button routerLink="courses" color="primary">Cursos</a>
+      <a mat-button routerLink="courses" color="secondary">Cursos</a>
     <hr>
     <hr>
-    <a mat-button routerLink="inscriptions" color="primary">Inscripciones</a>
+      <a mat-button routerLink="inscriptions" color="secondary">Inscripciones</a>
     <hr>
+    <div *ngIf="user.isAdmin">
+    <hr >
+    <a mat-button routerLink="users" color="secondary">Usuarios</a>
     <hr>
-    <a mat-button routerLink="users" color="primary">Usuarios</a>
-    <hr>
+    </div>
   </div>
