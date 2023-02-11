@@ -10,6 +10,14 @@
             <a class="nav-link active" aria-current="page">Portal de registro de alumnos, cursos e inscripciones</a>
           </li>
         </ul>
+        <b style="color: white;  margin-right: 20px;" *ngIf="user">
+        Usuario: {{ user.firstName | fullNamePipe: user.lastName }}
+         ({{user.email}})
+        </b>
+        <button (click)="authService.logOut()" color="warn" mat-flat-button>Cerrar sesión</button>
       </div>
+      <ng-template #templateName>
+        <button routerLink="/auth/login" mat-flat-button color="primary">Iniciar sesión</button>
+      </ng-template>
     </div>
   </nav>
